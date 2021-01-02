@@ -77,17 +77,24 @@ class Camera(object):
     def getPhotograph(self, index):  # 调用预置点并抓拍
         print('设备:'+self.camName+' deviceSerial:' + self.deviceSerial + ' index:' + str(index))
         try:
+            #获取当前时间
             Now = str(datetime.now())
             times=Now[:10] + '_' + Now[11:13]+'_'+Now[14:16]
             print(times)
+
+            #调用预置点并等待30秒
             self.point(index)
             time.sleep(30)
+
+            #抓拍图片，返回图片的url
             url = self.photograph()
             print(url)
+
+            #保存图片到本地
             response = requests.get(url)
             img = response.content
             imgName='./'+self.deviceSerial+'/'+str(index)+'_'+times+'.jpg'
-            if os.path.exists(self.deviceSerial)==False:
+            if os.path.exists(self.deviceSerial)==False:#查看是否有文件夹
                 os.mkdir(self.deviceSerial)
             with open(imgName, 'wb') as f:
                 f.write(img)
@@ -142,12 +149,17 @@ if __name__ == '__main__':
     cam3.getPhotograph(4)
     cam3.getPhotograph(5)
     cam3.getPhotograph(6)
+    cam3.getPhotograph(7)
 
-    # cam4.getPhotograph(1)
-    # cam4.getPhotograph(2)
-    # cam4.getPhotograph(3)
-    # cam4.getPhotograph(4)
-    # cam4.getPhotograph(5)
+    cam4.getPhotograph(1)
+    cam4.getPhotograph(2)
+    cam4.getPhotograph(3)
+    cam4.getPhotograph(4)
+    cam4.getPhotograph(5)
+    cam4.getPhotograph(6)
+    cam4.getPhotograph(7)
+    cam4.getPhotograph(8)
+    cam4.getPhotograph(9)
 
     cam5.getPhotograph(1)
     cam5.getPhotograph(2)

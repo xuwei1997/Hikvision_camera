@@ -1,6 +1,7 @@
 from control import Camera, Account, getKey
 from datetime import datetime
 from multiprocessing import Pool
+import os
 
 
 # def getPhotoMul(cam,inx):
@@ -13,6 +14,9 @@ def getPhoto(cam, number):
 
 
 if __name__ == '__main__':
+    # os.system('cd /root/Hikvision_camera/')
+    os.chdir('/root/Hikvision_camera/')
+    print(os.getcwd())
     print(datetime.now())
 
     appKey, appSecret = getKey()
@@ -25,7 +29,7 @@ if __name__ == '__main__':
     cam3 = Camera(Token, 'E88569979', 1, '设备3')
     cam4 = Camera(Token, 'E88570024', 1, '设备4')
     cam5 = Camera(Token, 'E88570011', 1, '设备5')
-    cam6 = Camera(Token, 'E88570046', 1, '设备6')
+    # cam6 = Camera(Token, 'E88570046', 1, '设备6')
 
     p = Pool(4)
 

@@ -25,7 +25,7 @@ class Account(object):
             # f.write(output)
             # f.close()
 
-            #写入文件
+            # 写入文件
             with open('Token.txt', 'w')as f:
                 f.write(output)
 
@@ -54,10 +54,10 @@ class Camera(object):
         self.accessToken = accessToken
         self.deviceSerial = deviceSerial
         self.channelNo = channelNo
-        self.camName=camName
+        self.camName = camName
 
     def point(self, index):  # 调用预置点
-        print('调用预置点')
+        print('调用预置点:' + self.camName + ' index:' + str(index))
         data = {'accessToken': self.accessToken, 'deviceSerial': self.deviceSerial, 'channelNo': self.channelNo,
                 'index': index}
         r = requests.post('https://open.ys7.com/api/lapp/device/preset/move', data=data)
@@ -66,7 +66,7 @@ class Camera(object):
         # print(text)
 
     def photograph(self):  # 抓拍图片，返回图片的url
-        print('抓拍图片，返回图片的url')
+        print('抓拍图片，返回图片的url:'+ self.camName)
         data = {'accessToken': self.accessToken, 'deviceSerial': self.deviceSerial, 'channelNo': self.channelNo}
         r = requests.post('https://open.ys7.com/api/lapp/device/capture', data=data)
         text = r.json()
@@ -75,32 +75,33 @@ class Camera(object):
         return text['data']['picUrl']
 
     def getPhotograph(self, index):  # 调用预置点并抓拍
-        print('设备:'+self.camName+' deviceSerial:' + self.deviceSerial + ' index:' + str(index))
+        print('设备:' + self.camName + ' deviceSerial:' + self.deviceSerial + ' index:' + str(index))
         try:
-            #获取当前时间
-            Now = str(datetime.now())
-            times=Now[:10] + '_' + Now[11:13]+'_'+Now[14:16]
-            print(times)
 
-            #调用预置点并等待30秒
+            # 获取当前时间
+            Now = str(datetime.now())
+            times = Now[:10] + '_' + Now[11:13] + '_' + Now[14:16]
+            # print(times)
+
+            # 调用预置点并等待30秒
             self.point(index)
             time.sleep(30)
 
-            #抓拍图片，返回图片的url
+            # 抓拍图片，返回图片的url
             url = self.photograph()
             print(url)
 
-            #保存图片到本地
+            # 保存图片到本地
             response = requests.get(url)
             img = response.content
-            imgName='./'+self.deviceSerial+'/'+str(index)+'_'+times+'.jpg'
-            if os.path.exists(self.deviceSerial)==False:#查看是否有文件夹
+            imgName = './' + self.deviceSerial + '/' + str(index) + '_' + times + '.jpg'
+            if os.path.exists(self.deviceSerial) == False:  # 查看是否有文件夹
                 os.mkdir(self.deviceSerial)
             with open(imgName, 'wb') as f:
                 f.write(img)
+
         except BaseException as e:
             print('error!')
-
 
 
 def getKey():

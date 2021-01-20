@@ -29,7 +29,7 @@ if __name__ == '__main__':
     cam3 = Camera(Token, 'E88569979', 1, '设备3')
     cam4 = Camera(Token, 'E88570024', 1, '设备4')
     cam5 = Camera(Token, 'E88570011', 1, '设备5')
-    # cam6 = Camera(Token, 'E88570046', 1, '设备6')
+    cam6 = Camera(Token, 'E88570046', 1, '设备6')
 
     p = Pool(4)
 
@@ -38,6 +38,7 @@ if __name__ == '__main__':
     p.apply_async(getPhoto, args=(cam3, 7))
     p.apply_async(getPhoto, args=(cam4, 9))
     p.apply_async(getPhoto, args=(cam5, 6))
+    p.apply_async(getPhoto, args=(cam6, 7))
 
     p.close()
     p.join()

@@ -66,7 +66,7 @@ class Camera(object):
         # print(text)
 
     def photograph(self):  # 抓拍图片，返回图片的url
-        print('抓拍图片，返回图片的url:'+ self.camName)
+        print('抓拍图片，返回图片的url:' + self.camName)
         data = {'accessToken': self.accessToken, 'deviceSerial': self.deviceSerial, 'channelNo': self.channelNo}
         r = requests.post('https://open.ys7.com/api/lapp/device/capture', data=data)
         text = r.json()
@@ -79,13 +79,17 @@ class Camera(object):
         try:
 
             # 获取当前时间
+            # 时间精确到小时
             Now = str(datetime.now())
-            times = Now[:10] + '_' + Now[11:13] + '_' + Now[14:16]
+            # times = Now[:10] + '_' + Now[11:13] + '_' + Now[14:16]
+            times = Now[:10] + '_' + Now[11:13]
+            # times2 = Now[:4] + Now[5:7] + Now[8:10] + Now[11:13] + Now[14:16]
             # print(times)
 
-            # 调用预置点并等待30秒
+            # 20210119修改为40秒
+            # 调用预置点并等待40秒
             self.point(index)
-            time.sleep(30)
+            time.sleep(40)
 
             # 抓拍图片，返回图片的url
             url = self.photograph()
@@ -95,6 +99,7 @@ class Camera(object):
             response = requests.get(url)
             img = response.content
             imgName = './' + self.deviceSerial + '/' + str(index) + '_' + times + '.jpg'
+            # imgName = './' + self.deviceSerial + '/' + str(index) + times2 + '.jpg'
             if os.path.exists(self.deviceSerial) == False:  # 查看是否有文件夹
                 os.mkdir(self.deviceSerial)
             with open(imgName, 'wb') as f:
@@ -121,11 +126,11 @@ if __name__ == '__main__':
     print(Token)
 
     cam1 = Camera(Token, 'F03210481', 1, '设备1')
-    cam2 = Camera(Token, 'E88569964', 1, '设备2')
-    cam3 = Camera(Token, 'E88569979', 1, '设备3')
-    cam4 = Camera(Token, 'E88570024', 1, '设备4')
-    cam5 = Camera(Token, 'E88570011', 1, '设备5')
-    cam6 = Camera(Token, 'E88570046', 1, '设备6')
+    # cam2 = Camera(Token, 'E88569964', 1, '设备2')
+    # cam3 = Camera(Token, 'E88569979', 1, '设备3')
+    # cam4 = Camera(Token, 'E88570024', 1, '设备4')
+    # cam5 = Camera(Token, 'E88570011', 1, '设备5')
+    # cam6 = Camera(Token, 'E88570046', 1, '设备6')
 
     cam1.getPhotograph(1)
     cam1.getPhotograph(2)
@@ -137,37 +142,37 @@ if __name__ == '__main__':
     cam1.getPhotograph(8)
     cam1.getPhotograph(9)
 
-    cam2.getPhotograph(1)
-    cam2.getPhotograph(2)
-    cam2.getPhotograph(3)
-    cam2.getPhotograph(4)
-    cam2.getPhotograph(5)
-    cam2.getPhotograph(6)
-
-    cam3.getPhotograph(1)
-    cam3.getPhotograph(2)
-    cam3.getPhotograph(3)
-    cam3.getPhotograph(4)
-    cam3.getPhotograph(5)
-    cam3.getPhotograph(6)
-    cam3.getPhotograph(7)
-
-    cam4.getPhotograph(1)
-    cam4.getPhotograph(2)
-    cam4.getPhotograph(3)
-    cam4.getPhotograph(4)
-    cam4.getPhotograph(5)
-    cam4.getPhotograph(6)
-    cam4.getPhotograph(7)
-    cam4.getPhotograph(8)
-    cam4.getPhotograph(9)
-
-    cam5.getPhotograph(1)
-    cam5.getPhotograph(2)
-    cam5.getPhotograph(3)
-    cam5.getPhotograph(4)
-    cam5.getPhotograph(5)
-    cam5.getPhotograph(6)
+    # cam2.getPhotograph(1)
+    # cam2.getPhotograph(2)
+    # cam2.getPhotograph(3)
+    # cam2.getPhotograph(4)
+    # cam2.getPhotograph(5)
+    # cam2.getPhotograph(6)
+    #
+    # cam3.getPhotograph(1)
+    # cam3.getPhotograph(2)
+    # cam3.getPhotograph(3)
+    # cam3.getPhotograph(4)
+    # cam3.getPhotograph(5)
+    # cam3.getPhotograph(6)
+    # cam3.getPhotograph(7)
+    #
+    # cam4.getPhotograph(1)
+    # cam4.getPhotograph(2)
+    # cam4.getPhotograph(3)
+    # cam4.getPhotograph(4)
+    # cam4.getPhotograph(5)
+    # cam4.getPhotograph(6)
+    # cam4.getPhotograph(7)
+    # cam4.getPhotograph(8)
+    # cam4.getPhotograph(9)
+    #
+    # cam5.getPhotograph(1)
+    # cam5.getPhotograph(2)
+    # cam5.getPhotograph(3)
+    # cam5.getPhotograph(4)
+    # cam5.getPhotograph(5)
+    # cam5.getPhotograph(6)
 
     # cam6.getPhotograph(1)
     # cam6.getPhotograph(2)

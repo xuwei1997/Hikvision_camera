@@ -33,12 +33,12 @@ if __name__ == '__main__':
 
     p = Pool(4)
 
-    p.apply_async(getPhoto, args=(cam1, 9))
-    p.apply_async(getPhoto, args=(cam2, 6))
-    p.apply_async(getPhoto, args=(cam3, 7))
-    p.apply_async(getPhoto, args=(cam4, 9))
-    p.apply_async(getPhoto, args=(cam5, 6))
-    p.apply_async(getPhoto, args=(cam6, 7))
+    p.apply_async(getPhoto, args=(cam1, 11))
+    p.apply_async(getPhoto, args=(cam2, 7))
+    p.apply_async(getPhoto, args=(cam3, 10))
+    p.apply_async(getPhoto, args=(cam4, 10))
+    p.apply_async(getPhoto, args=(cam5, 8))
+    p.apply_async(getPhoto, args=(cam6, 10))
 
     p.close()
     p.join()

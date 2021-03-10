@@ -62,9 +62,40 @@ class Camera_glo(Camera):
             time.sleep(3)
             self.move(3,30,2)
             time.sleep(0.5)
+
             #向上
             self.move(0,4)
             time.sleep(0.5)
+
+    def getPhotographPoint(self,x,y,homing=False):
+        # 初始化：右下角000开始，最大焦距
+        if homing:
+            self.move(8, 5)
+            self.move(7, 15, 2)
+            time.sleep(2)
+
+        #转动
+        self.move(2, (y-1)*2.3)
+        self.move(0,(x-1)*4)
+        self.move(10, 5)
+        time.sleep(3)
+
+        #拍照
+        try:
+            url = self.photograph()
+            response = requests.get(url)
+            img = response.content
+            imgName = './' + self.deviceSerial + '/' + str(x) + '_' + str(y) + '.jpg'
+            if os.path.exists(self.deviceSerial) == False:  # 查看是否有文件夹
+                os.mkdir(self.deviceSerial)
+            with open(imgName, 'wb') as f:
+                f.write(img)
+        except BaseException as e:
+            print('error!')
+        #归位
+        self.move(7, 20, 2)
+
+
 
 
 
@@ -76,7 +107,6 @@ if __name__ == '__main__':
     print(Token)
 
     cam4 = Camera_glo(Token, 'E88570024', 1, '设备4')
-    cam4.getGlobalPhotograph()
+    # cam4.getGlobalPhotograph()
 
-    # cam6 = Camera_glo(Token, 'E88570046', 1, '设备6')
-    # cam6.getGlobalPhotograph()
+    cam4.getPhotographPoint(2,5)

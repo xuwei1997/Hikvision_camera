@@ -2,6 +2,7 @@ from control import Camera, Account, getKey
 from datetime import datetime
 from multiprocessing import Pool
 import os
+import time
 
 
 # def getPhotoMul(cam,inx):
@@ -11,6 +12,11 @@ import os
 def getPhoto(cam, number):
     for i in range(1, number + 1):
         cam.getPhotograph(i)
+
+def getPhotoFruit(cam, a,b):
+    for i in range(a, b + 1):
+        cam.getPhotographFruit(i)
+        # cam.getPhotograph(i)
 
 
 if __name__ == '__main__':
@@ -39,6 +45,13 @@ if __name__ == '__main__':
     p.apply_async(getPhoto, args=(cam4, 10))
     p.apply_async(getPhoto, args=(cam5, 8))
     p.apply_async(getPhoto, args=(cam6, 10))
+    #
+    time.sleep(120)
+    p.apply_async(getPhotoFruit, args=(cam1, 12,30))
+    p.apply_async(getPhotoFruit, args=(cam2, 8, 13))
+    p.apply_async(getPhotoFruit, args=(cam5, 9, 10))
+    p.apply_async(getPhotoFruit, args=(cam6, 11, 15))
+
 
     p.close()
     p.join()

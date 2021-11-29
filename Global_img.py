@@ -5,8 +5,8 @@ import time
 from datetime import datetime
 import os
 
-class Camera_glo(Camera):
-    def move(self, direction, sec,speed=1):  # 输入移动的方向和秒
+class Camera_glo(Camera):#继承Camera类
+    def move(self, direction, sec,speed=1):  # 输入移动的方向和秒，使摄像头转动到特定角度
         print('移动:' + self.camName + ' 方向:' + str(direction))
 
         data = {'accessToken': self.accessToken, 'deviceSerial': self.deviceSerial, 'channelNo': self.channelNo,
@@ -23,7 +23,7 @@ class Camera_glo(Camera):
         text = r.json()
         print(text)
 
-    def getGlobalPhotograph(self):
+    def getGlobalPhotograph(self):#抓拍全方位的图片
         #获取时间
         Now = str(datetime.now())
         times = Now[:10] + '_' + Now[11:13]+'_'+Now[14:16]
@@ -67,7 +67,7 @@ class Camera_glo(Camera):
             self.move(0,4)
             time.sleep(0.5)
 
-    def getPhotographPoint(self,x,y,homing=False):
+    def getPhotographPoint(self,x,y,homing=False):#抓拍特定角度图片
         # 初始化：右下角000开始，最大焦距
         if homing:
             self.move(8, 5)

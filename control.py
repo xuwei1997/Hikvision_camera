@@ -4,10 +4,23 @@ import os
 from datetime import datetime
 
 
-class Account(object):
-    def __init__(self, appKey, appSecret):
-        self.appKey = appKey
-        self.appSecret = appSecret
+class Account(object):  # 账户类，获取摄像头控制权限
+    def __init__(self, no):
+        self.con_file_path = 'config' + no + '.txt'
+        self.token_file_path = 'token' + no + '.txt'
+        self.appKey = None
+        self.appSecret = None
+        self.getKey()
+
+    def getKey(self):  # 获取key
+        with open(self.con_file_path, 'r') as f:
+            Key = f.read()
+            Key = eval(Key)
+            print(Key)
+            self.appKey = Key['appKey']
+            self.appSecret = Key['appSecret']
+
+            # return (Key['appKey'], Key['appSecret'])
 
     def getAccessTokenAPI(self):  # 从API读取Token
         data = {'appKey': self.appKey, 'appSecret': self.appSecret}
@@ -21,20 +34,20 @@ class Account(object):
             output = {'accessToken': text['data']['accessToken'], 'expireTime': text['data']['expireTime']}
             output = str(output)
             # 写入文件
-            # f = open('Token.txt', 'w')
+            # f = open(self.token_file_path, 'w')
             # f.write(output)
             # f.close()
 
             # 写入文件
-            with open('Token.txt', 'w')as f:
+            with open(self.token_file_path, 'w')as f:
                 f.write(output)
 
             print(output)
             return text['data']['accessToken']
 
     def getAccessToken(self):  # 读取Token
-        if os.path.exists('Token.txt'):  # 文件在，则读文件获取Token
-            with open('Token.txt', 'r') as f:
+        if os.path.exists(self.token_file_path):  # 文件在，则读文件获取Token
+            with open(self.token_file_path, 'r') as f:
                 text = f.read()
             text = eval(text)
             t = time.time()
@@ -56,15 +69,16 @@ class Camera(object):
         self.channelNo = channelNo
         self.camName = camName
 
-    def point(self, index):  # 调用预置点
+    def point(self, index):  # 调用预置点，使摄像头转动到预置点的方向
         print('调用预置点:' + self.camName + ' index:' + str(index))
         data = {'accessToken': self.accessToken, 'deviceSerial': self.deviceSerial, 'channelNo': self.channelNo,
                 'index': index}
         r = requests.post('https://open.ys7.com/api/lapp/device/preset/move', data=data)
         text = r.json()
-        print('code:' + text['code'])
+        print(self.camName + '_point_code:' + text['code'])
         # print(text)
-    def focusing(self):  # 输入移动的方向和秒
+
+    def focusing(self):  # 聚焦
         print("focusing")
         data = {'accessToken': self.accessToken, 'deviceSerial': self.deviceSerial, 'channelNo': self.channelNo,
                 'direction': 10, 'speed': 1}
@@ -78,12 +92,12 @@ class Camera(object):
         text = r.json()
         print(text)
 
-    def photograph(self):  # 抓拍图片，返回图片的url
+    def photograph(self):  # 抓拍当前角度图片，返回图片的url
         print('抓拍图片，返回图片的url:' + self.camName)
         data = {'accessToken': self.accessToken, 'deviceSerial': self.deviceSerial, 'channelNo': self.channelNo}
         r = requests.post('https://open.ys7.com/api/lapp/device/capture', data=data)
         text = r.json()
-        print('code:' + text['code'])
+        print(self.camName + '_photograph_code:' + text['code'])
         # print(text)
         return text['data']['picUrl']
 
@@ -111,10 +125,13 @@ class Camera(object):
             # 保存图片到本地
             response = requests.get(url)
             img = response.content
-            imgName = './' + self.deviceSerial + '/' + str(index) + '_' + times + '.jpg'
+            # imgName = './' + self.deviceSerial + '/' + str(index) + '_' + times + '.jpg'
             # imgName = './' + self.deviceSerial + '/' + str(index) + times2 + '.jpg'
-            if os.path.exists(self.deviceSerial) == False:  # 查看是否有文件夹
-                os.mkdir(self.deviceSerial)
+            imgName = './' + self.camName + '/' + str(index) + '_' + times + '.jpg'
+
+            # if os.path.exists(self.deviceSerial) == False:  # 查看是否有文件夹
+            if os.path.exists(self.camName) == False:  # 查看是否有文件夹
+                os.mkdir(self.camName)
             with open(imgName, 'wb') as f:
                 f.write(img)
 
@@ -129,7 +146,6 @@ class Camera(object):
             # 时间精确到小时
             Now = str(datetime.now())
             times = Now[:10] + '_' + Now[11:13]
-
 
             # 调用预置点并等待60秒
             self.point(index)
@@ -154,25 +170,23 @@ class Camera(object):
             print('error!')
 
 
-def getKey():
-    with open('config.txt', 'r') as f:
-        Key = f.read()
-        Key = eval(Key)
-        print(Key)
-        return (Key['appKey'], Key['appSecret'])
+# def getKey(PATH):
+#     with open(PATH, 'r') as f:
+#         Key = f.read()
+#         Key = eval(Key)
+#         print(Key)
+#         return (Key['appKey'], Key['appSecret'])
 
 
 if __name__ == '__main__':
     print(datetime.now())
 
-    appKey, appSecret = getKey()
-    access = Account(appKey, appSecret)
-    Token = access.getAccessToken()
-    print(Token)
+    no = 'No1'
+    access1 = Account(no)
+    token1 = access1.getAccessToken()
+    print(token1)
 
-    cam1 = Camera(Token, 'F03210481', 1, '设备1')
+    cam1 = Camera(token1, 'G53497429', 1, 'No02S')
 
-
-    # cam1.getPhotograph(14)
+    cam1.getPhotograph(10)
     # cam1.getPhotographFruit(30)
-

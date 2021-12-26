@@ -4,6 +4,11 @@ import os
 from datetime import datetime
 
 
+def getPhotoFruit(cam, a=1, b=3):  # 批量调用getPhotograph方法2
+    for i in range(a, b + 1):
+        # cam.getPhotographFruit(i)
+        cam.getPhotograph(i)
+
 class Account(object):  # 账户类，获取摄像头控制权限
     def __init__(self, no):
         self.con_file_path = 'config' + no + '.txt'
@@ -128,6 +133,7 @@ class Camera(object):
             # imgName = './' + self.deviceSerial + '/' + str(index) + '_' + times + '.jpg'
             # imgName = './' + self.deviceSerial + '/' + str(index) + times2 + '.jpg'
             imgName = './' + self.camName + '/' + str(index) + '_' + times + '.jpg'
+            print(imgName)
 
             # if os.path.exists(self.deviceSerial) == False:  # 查看是否有文件夹
             if os.path.exists(self.camName) == False:  # 查看是否有文件夹
@@ -137,6 +143,7 @@ class Camera(object):
 
         except BaseException as e:
             print('error!')
+            print(e)
 
     def getPhotographFruit(self, index):  # 调用预置点并抓拍樱桃，添加了一步对焦到前景
         print('设备:' + self.camName + ' deviceSerial:' + self.deviceSerial + ' index:' + str(index))
@@ -181,12 +188,24 @@ class Camera(object):
 if __name__ == '__main__':
     print(datetime.now())
 
+    # 获取token1
     no = 'No1'
     access1 = Account(no)
     token1 = access1.getAccessToken()
     print(token1)
 
-    cam1 = Camera(token1, 'G53497429', 1, 'No02S')
+    # 获取token2
+    no = 'No2'
+    access2 = Account(no)
+    token2 = access2.getAccessToken()
+    print(token2)
 
-    cam1.getPhotograph(10)
-    # cam1.getPhotographFruit(30)
+    # 获取token3
+    no = 'No3'
+    access3 = Account(no)
+    token3 = access3.getAccessToken()
+    print(token3)
+
+    cam21 = Camera(token3, 'E88570011', 1, 'DS01S')
+
+    getPhotoFruit(cam21)

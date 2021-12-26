@@ -10,7 +10,7 @@ def getPhoto(cam, number):  # 批量调用getPhotograph方法
         cam.getPhotograph(i)
 
 
-def getPhotoFruit(cam, a=1, b=2):  # 批量调用getPhotograph方法2
+def getPhotoFruit(cam, a=1, b=3):  # 批量调用getPhotograph方法2
     for i in range(a, b + 1):
         # cam.getPhotographFruit(i)
         cam.getPhotograph(i)
@@ -18,8 +18,8 @@ def getPhotoFruit(cam, a=1, b=2):  # 批量调用getPhotograph方法2
 
 if __name__ == '__main__':
     # os.system('cd /root/Hikvision_camera/')
-    # os.chdir('/root/Hikvision_camera/')  # 切换到指定的运行目录
-    print(os.getcwd())
+    # os.chdir('/home/zhny/Hikvision_camera/')  # 切换到指定的运行目录
+    # print(os.getcwd())
     print(datetime.now())
 
     # 获取token1
@@ -33,6 +33,12 @@ if __name__ == '__main__':
     access2 = Account(no)
     token2 = access2.getAccessToken()
     print(token2)
+
+    # 获取token3
+    no = 'No3'
+    access3 = Account(no)
+    token3 = access3.getAccessToken()
+    print(token3)
 
     # 实例化camera
     # SONG
@@ -58,6 +64,14 @@ if __name__ == '__main__':
     cam18 = Camera(token2, 'F27981800', 1, 'SP02S')
     cam19 = Camera(token2, 'G61903542', 1, 'DL01L')
 
+    cam20 = Camera(token3, 'F27981777', 1, 'DL02S')
+    cam21 = Camera(token3, 'E88570011', 1, 'DS01S')
+    cam22 = Camera(token3, 'E88569964', 1, 'DS02S')
+    cam23 = Camera(token3, 'E88570024', 1, 'SH02S')
+    cam24 = Camera(token3, 'E88570046', 1, 'SH01S')
+    cam25 = Camera(token3, 'E88569979', 1, '44443')
+    cam26 = Camera(token3, 'F27981765', 1, 'NKYXS')
+
     # 多进程
     p = Pool(8)  # 进程池
     #
@@ -80,6 +94,14 @@ if __name__ == '__main__':
     p.apply_async(getPhotoFruit, args=(cam9,))
     p.apply_async(getPhotoFruit, args=(cam10,))
     p.apply_async(getPhotoFruit, args=(cam11,))
+
+    p.apply_async(getPhotoFruit, args=(cam20,))
+    p.apply_async(getPhotoFruit, args=(cam21,))
+    p.apply_async(getPhotoFruit, args=(cam22,))
+    p.apply_async(getPhotoFruit, args=(cam23,))
+    p.apply_async(getPhotoFruit, args=(cam24,))
+    p.apply_async(getPhotoFruit, args=(cam25,))
+    p.apply_async(getPhotoFruit, args=(cam26,))
 
     # # 关闭进程池
     p.close()

@@ -3,6 +3,8 @@ from datetime import datetime
 from multiprocessing import Pool
 import os
 import time
+# from control_blueberry import CameraBlue
+import requests
 
 
 def getPhoto(cam, number):  # 批量调用getPhotograph方法
@@ -15,9 +17,47 @@ def getPhotoFruit(cam, a=1, b=3):  # 批量调用getPhotograph方法2
         # cam.getPhotographFruit(i)
         cam.getPhotograph(i)
 
+class CameraCra(Camera):
+    def getPhotograph(self, index):  # 调用预置点并抓拍
+        print('设备:' + self.camName + ' deviceSerial:' + self.deviceSerial + ' index:' + str(index))
+        try:
+
+            # 获取当前时间
+            # 时间精确到分钟
+            Now = str(datetime.now())
+            times = Now[:10] + '_' + Now[11:13] + '_' + Now[14:16]
+            print(times)
+
+            # 20210119修改为40秒
+            # 调用预置点并等待40秒
+            self.point(index)
+            time.sleep(40)
+
+            # 抓拍图片，返回图片的url
+            url = self.photograph()
+            print(url)
+
+            # 保存图片到本地
+            response = requests.get(url)
+            img = response.content
+            # imgName = './' + self.deviceSerial + '/' + str(index) + '_' + times + '.jpg'
+            # imgName = './' + self.deviceSerial + '/' + str(index) + times2 + '.jpg'
+            imgName = './' + self.camName + '/' + str(index) + '_' + times + '.jpg'
+            print(imgName)
+
+            # if os.path.exists(self.deviceSerial) == False:  # 查看是否有文件夹
+            if os.path.exists(self.camName) == False:  # 查看是否有文件夹
+                os.mkdir(self.camName)
+            with open(imgName, 'wb') as f:
+                f.write(img)
+
+        except BaseException as e:
+            print('error!')
+            print(e)
+
 
 if __name__ == '__main__':
-    os.chdir('/home/zhny/Hikvision_camera/')  # 切换到指定的运行目录
+    # os.chdir('/home/zhny/Hikvision_camera/')  # 切换到指定的运行目录
     print(os.getcwd())
     print(datetime.now())
 
@@ -41,7 +81,7 @@ if __name__ == '__main__':
 
     # 实例化camera
     # SONG
-    cam1 = Camera(token1, 'G61903718', 1, 'No01LC')
+    cam1 = CameraCra(token1, 'G61903718', 1, 'No01LC')
 
     # 多进程
     p = Pool(4)  # 进程池

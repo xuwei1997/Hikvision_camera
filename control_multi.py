@@ -42,7 +42,7 @@ if __name__ == '__main__':
 
     # 实例化camera
     # SONG
-    cam1 = Camera(token1, 'G61903718', 1, 'No01L')
+    # cam1 = Camera(token1, 'G61903718', 1, 'No01L')
     cam2 = Camera(token1, 'G53497397', 1, 'No01S')
     cam3 = Camera(token1, 'G61903594', 1, 'No02L')
     cam4 = Camera(token1, 'G53497429', 1, 'No02S')
@@ -75,7 +75,7 @@ if __name__ == '__main__':
     # 多进程
     p = Pool(8)  # 进程池
     #
-    p.apply_async(getPhotoFruit, args=(cam1,))
+    # p.apply_async(getPhotoFruit, args=(cam1,))
     p.apply_async(getPhotoFruit, args=(cam19,))
     p.apply_async(getPhotoFruit, args=(cam2,))
     p.apply_async(getPhotoFruit, args=(cam18,))

@@ -17,7 +17,7 @@ def getPhotoFruit(cam, a=1, b=3):  # 批量调用getPhotograph方法2
 
 
 if __name__ == '__main__':
-    # os.chdir('/home/zhny/Hikvision_camera/')  # 切换到指定的运行目录
+    os.chdir('/home/zhny/Hikvision_camera/')  # 切换到指定的运行目录
     print(os.getcwd())
     print(datetime.now())
 

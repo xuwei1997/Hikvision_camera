@@ -57,7 +57,7 @@ class CameraCra(Camera):
 
 
 if __name__ == '__main__':
-    # os.chdir('/home/zhny/Hikvision_camera/')  # 切换到指定的运行目录
+    os.chdir('/home/zhny/Hikvision_camera/')  # 切换到指定的运行目录
     print(os.getcwd())
     print(datetime.now())
 
@@ -82,11 +82,15 @@ if __name__ == '__main__':
     # 实例化camera
     # SONG
     cam1 = CameraCra(token1, 'G61903718', 1, 'No01LC')
+    cam3 = CameraCra(token1, 'G61903594', 1, 'No02LC')
+    cam7 = CameraCra(token1, 'G61903598', 1, 'No04LC')
 
     # 多进程
     p = Pool(4)  # 进程池
     #
     p.apply_async(getPhotoFruit, args=(cam1, 4, 9))
+    p.apply_async(getPhotoFruit, args=(cam3, 4, 5))
+    p.apply_async(getPhotoFruit, args=(cam7, 4, 6))
 
     # # 关闭进程池
     p.close()

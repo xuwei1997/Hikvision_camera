@@ -17,7 +17,6 @@ def getPhotoFruit(cam, a=1, b=3):  # 批量调用getPhotograph方法2
 
 
 if __name__ == '__main__':
-    # os.system('cd /root/Hikvision_camera/')
     os.chdir('/home/zhny/Hikvision_camera/')  # 切换到指定的运行目录
     print(os.getcwd())
     print(datetime.now())
@@ -44,11 +43,11 @@ if __name__ == '__main__':
     # SONG
     # cam1 = Camera(token1, 'G61903718', 1, 'No01L')
     cam2 = Camera(token1, 'G53497397', 1, 'No01S')
-    cam3 = Camera(token1, 'G61903594', 1, 'No02L')
+    # cam3 = Camera(token1, 'G61903594', 1, 'No02L')
     cam4 = Camera(token1, 'G53497429', 1, 'No02S')
     cam5 = Camera(token1, 'G61903515', 1, 'No03L')
     cam6 = Camera(token1, 'G53497414', 1, 'No03S')
-    cam7 = Camera(token1, 'G61903598', 1, 'No04L')
+    # cam7 = Camera(token1, 'G61903598', 1, 'No04L')
     cam8 = Camera(token1, 'G53497399', 1, 'No04S')
     cam9 = Camera(token1, 'G65260073', 1, 'No05L')
     cam10 = Camera(token2, 'G53497448', 1, 'No05S')
@@ -79,7 +78,7 @@ if __name__ == '__main__':
     p.apply_async(getPhotoFruit, args=(cam19,))
     p.apply_async(getPhotoFruit, args=(cam2,))
     p.apply_async(getPhotoFruit, args=(cam18,))
-    p.apply_async(getPhotoFruit, args=(cam3,))
+    # p.apply_async(getPhotoFruit, args=(cam3,))
     p.apply_async(getPhotoFruit, args=(cam17,))
     p.apply_async(getPhotoFruit, args=(cam4,))
     p.apply_async(getPhotoFruit, args=(cam16,))
@@ -87,7 +86,7 @@ if __name__ == '__main__':
     p.apply_async(getPhotoFruit, args=(cam15,))
     p.apply_async(getPhotoFruit, args=(cam6,))
     p.apply_async(getPhotoFruit, args=(cam14,))
-    p.apply_async(getPhotoFruit, args=(cam7,))
+    # p.apply_async(getPhotoFruit, args=(cam7,))
     p.apply_async(getPhotoFruit, args=(cam13,))
     p.apply_async(getPhotoFruit, args=(cam8,))
     p.apply_async(getPhotoFruit, args=(cam12,))
@@ -97,11 +96,11 @@ if __name__ == '__main__':
 
     p.apply_async(getPhotoFruit, args=(cam20,))
     p.apply_async(getPhotoFruit, args=(cam21,))
-    p.apply_async(getPhotoFruit, args=(cam22,))
-    p.apply_async(getPhotoFruit, args=(cam23,))
-    p.apply_async(getPhotoFruit, args=(cam24,))
+    p.apply_async(getPhotoFruit, args=(cam22, 1, 6))
+    p.apply_async(getPhotoFruit, args=(cam23, 1, 3))
+    p.apply_async(getPhotoFruit, args=(cam24, 1, 4))
     p.apply_async(getPhotoFruit, args=(cam25,))
-    p.apply_async(getPhotoFruit, args=(cam26,))
+    p.apply_async(getPhotoFruit, args=(cam26, 1, 7))
 
     # # 关闭进程池
     p.close()
